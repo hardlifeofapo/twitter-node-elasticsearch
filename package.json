@@ -1,0 +1,14 @@
+{
+    "name": "twitter-node-couchbase"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "3.0.6"
+    , "less": "*"
+	, "elasticsearch": "*"
+    , "jade": "*"
+    , "ntwitter": "git://github.com/hardlifeofapo/ntwitter"
+    , "socket.io": "*"
+	, "moment": "*"
+  }
+}

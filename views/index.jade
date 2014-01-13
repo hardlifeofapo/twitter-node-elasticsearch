@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	.navbar.navbar-fixed-top
+		.navbar-inner
+			.container
+				a.brand(href="/")= title
+				ul.nav
+					li.active
+						a(href="/") Home
+					li
+						a(href="/stream") Stream
+					li
+						a(href="/stats") Stats
+	.container
+		.hero-unit
+			h1 Hello, World!
+				div.chart
+				

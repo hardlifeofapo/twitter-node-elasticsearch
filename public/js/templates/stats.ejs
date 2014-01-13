@@ -1,0 +1,39 @@
+<script type="text/javascript" charset="utf-8">
+	var chart;
+	var graph;
+
+
+	var chartData = [<% for(var i=0; i<data.length; i++) {%> {time: new Date(<%= data[i].time %>), value: <%= data[i].count %> }, <% } %>]
+
+
+	AmCharts.ready(function() {
+	  // SERIAL CHART
+	  chart = new AmCharts.AmSerialChart();
+	  chart.pathToImages = "http://www.amcharts.com/lib/images/";
+	  chart.dataProvider = chartData;
+	  chart.autoMargins = false;
+	  chart.categoryField = "time";
+
+	  // AXES
+	  // category
+	  var categoryAxis = chart.categoryAxis;
+	  categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
+	  categoryAxis.minPeriod = "ss";
+	  categoryAxis.gridAlpha = 0;
+
+	  // value
+	  var valueAxis = new AmCharts.ValueAxis();
+	  valueAxis.axisAlpha = 0;
+	  valueAxis.inside = true;
+	  chart.addValueAxis(valueAxis);
+
+	  // GRAPH                
+	  graph = new AmCharts.AmGraph();
+	  graph.type = "column"; // this line makes the graph smoothed line.
+	  graph.valueField = "value";
+	  chart.addGraph(graph);
+
+	  // WRITE
+	  chart.write("mychart");
+	});
+</script>

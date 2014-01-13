@@ -1,0 +1,30 @@
+extends layout
+
+block scripts
+  script(src="/amcharts/amcharts/amcharts.js")
+
+block content
+  .navbar.navbar-fixed-top
+    .navbar-inner
+      .container
+        a.brand(href="/")= title
+        ul.nav
+          li
+            a(href="/") Home
+          li
+            a(href="/stream") Stream
+          li.active
+            a(href="/stats") Stats
+  .container(style="height:500px")
+    div#mychart(style="height:500px")
+    script(type='text/javascript').
+      $(function(){
+        var aData = { "data": !{JSON.stringify(data)} };
+        var html = new EJS( {url: '/js/templates/stats.ejs'} ).render(aData);
+        console.info(html);
+        console.info($("#mychart"));
+        $("#mychart").append(html);
+      });
+    hr
+    footer
+      p (c) Pablo Casado

@@ -1,0 +1,69 @@
+extends layout
+
+block scripts
+	script(src="/socket.io/socket.io.js")
+	script(type='text/javascript').
+		var socket = io.connect();
+		var where;
+		// Prepare events
+
+		socket.on('tweet', function (data) {
+			var html = new EJS( {url: 'js/templates/aTweet.ejs'} ).render({"data": data});
+			where.after(html);
+			$("#numTweets").text( parseInt( $("#numTweets").text() )+1 );
+		});
+		
+		$(function(){
+			where = $("#tweets .fluid12");
+
+			$("#start_button").click(function(){
+				console.info("click");
+				if( !$(this).hasClass("active") ){
+					$(this).addClass("active").text("Stop streaming");
+					// emit start after events are set on socket
+					socket.emit('start');
+				}else{
+					$(this).removeClass("active").text("Start streaming");
+					// emit stop. start + stop allow user to stop and (re)start stream from twitter
+					socket.emit('stop');
+				}
+			}); //click on start_button
+
+
+			$("#clear_button").click(function(){
+				$("#tweets").html('<div class="fluid12"></div>');
+				where = $("#tweets .fluid12");
+			}); //click on clear_button
+			
+		}); //on load
+		
+		
+
+block content
+	.navbar.navbar-fixed-top
+		.navbar-inner
+			.container
+				a.brand(href="/")= title
+				ul.nav
+					li
+						a(href="/") Home
+					li.active
+						a(href="/stream") Stream
+					li
+						a(href="/stats") Stats
+	.container
+		.hero-unit
+			h1 Stream
+				p Show tweets here!
+				p
+					a.btn.btn-primary.btn-large#start_button Start streaming >>
+					&nbsp;
+					a.btn.btn-danger.btn-large#clear_button Clear tweets 
+				p
+					span(id="numTweets") 0
+					span &nbsp; tweets received
+		.row-fluid#tweets
+			.fluid12
+		hr
+		footer
+			p (c) Pablo Casado
